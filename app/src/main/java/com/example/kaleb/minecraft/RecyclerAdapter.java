@@ -1,5 +1,6 @@
 package com.example.kaleb.minecraft;
 
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Messag
         public MessageViewHolder(View v) {
             super(v);
             mTextView = (TextView) v.findViewById(R.id.textView);
+            Typeface tf = Typeface.createFromAsset(v.getContext().getAssets(), "fonts/font-mine.ttf");
+            mTextView.setTypeface(tf);
         }
     }
 
