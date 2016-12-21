@@ -7,12 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 /**
  * Created by kaleb on 12/18/2016.
  */
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MessageViewHolder> {
-    private String[] mDataset;
+    private ArrayList<String> mDataset;
 
     public static class MessageViewHolder extends RecyclerView.ViewHolder {
         public TextView mTextView;
@@ -21,11 +24,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Messag
             mTextView = (TextView) v.findViewById(R.id.textView);
             Typeface tf = Typeface.createFromAsset(v.getContext().getAssets(), "fonts/font-mine.ttf");
             mTextView.setTypeface(tf);
+            mTextView.setTextSize((float)18.00);
         }
     }
 
-    public RecyclerAdapter(String[] myDataset) {
-        mDataset = myDataset;
+    public RecyclerAdapter(ArrayList<String> myDataset) {
+        this.mDataset = myDataset;
     }
 
     // Create new views (invoked by the layout manager)
@@ -43,13 +47,18 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Messag
     public void onBindViewHolder(MessageViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.mTextView.setText(mDataset[position]);
+        holder.mTextView.setText(mDataset.get(position));
 
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return mDataset.length;
+        return mDataset.size();
+    }
+
+    public void updateSocketInfo(String message) {
+        mDataset.add(message);
+        notifyDataSetChanged();
     }
 }
