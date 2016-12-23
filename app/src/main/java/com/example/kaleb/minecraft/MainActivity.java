@@ -1,5 +1,6 @@
 package com.example.kaleb.minecraft;
 
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -7,6 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.widget.TextView;
+
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 import com.github.nkzawa.emitter.Emitter;
@@ -21,7 +25,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private LinearLayoutManager mLayoutManager;
     private Socket mSocket;
     private List<String> myData = new ArrayList<String>();
     private MainActivity mActivity = this;
@@ -52,11 +56,26 @@ public class MainActivity extends AppCompatActivity {
 
         // needs a layout manager
         mLayoutManager = new LinearLayoutManager(this);
+        mLayoutManager.setStackFromEnd(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // needs and adapter
         mAdapter = new RecyclerAdapter(strArray);
         mRecyclerView.setAdapter(mAdapter);
+
+        final TextView meditTextView = (TextView)findViewById(R.id.editText4);
+        Typeface tf = Typeface.createFromAsset(meditTextView.getContext().getAssets(), "fonts/font-mine.ttf");
+        meditTextView.setTypeface(tf);
+        meditTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (meditTextView.getText().toString().trim().length() == 0) {
+                    return false;
+                }
+                emitText(meditTextView);
+                return false;
+            }
+        });
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         mClient = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
@@ -67,6 +86,12 @@ public class MainActivity extends AppCompatActivity {
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
 
+    public void emitText(TextView tv) {
+        String emitValue = "say " + tv.getText();
+        Log.d("MAIN ACTIVITY", emitValue);
+        tv.setText("");
+        mSocket.emit("command", emitValue);
+    }
 
     @Override
     public void onStart() {

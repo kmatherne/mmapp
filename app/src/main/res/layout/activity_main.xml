@@ -3,14 +3,35 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:id="@+id/activity_main"
                 android:layout_height="match_parent"
-                android:paddingBottom="30dp"
                 android:background="@drawable/sexyblock"
                 tools:context="com.example.kaleb.minecraft.MainActivity"
                 android:layout_width="match_parent">
 
+    <EditText
+        android:layout_width="match_parent"
+        android:background="#E6484b4f"
+        android:inputType="textNoSuggestions"
+        android:ems="10"
+        android:id="@+id/editText4"
+        android:textColor="#FFFFFF"
+        android:padding="5dp"
+        android:textCursorDrawable="@null"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_height="40dp"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/editText4">
+
+        <!--<RelativeLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"/>-->
+
+    </android.support.v7.widget.RecyclerView>
+
 </RelativeLayout>
